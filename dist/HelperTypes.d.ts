@@ -1,32 +1,25 @@
 import { TextStyle, ViewStyle } from "react-native";
 import { CircleProps, TextProps } from "react-native-svg";
-
 export interface Dataset {
   /** The data corresponding to the x-axis label. */
   data: number[];
-
   /** A function returning the color of the stroke given an input opacity value. */
   color?: (opacity: number) => string;
-
   /** The width of the stroke. Defaults to 2. */
   strokeWidth?: number;
-
   /** A boolean indicating whether to render dots for this line */
   withDots?: boolean;
-
   /** Override of LineChart's withScrollableDot property just for this dataset */
   withScrollableDot?: boolean;
 
   /** Data value to disregard on the graph */
   ignoreValue?: number;
 }
-
 export interface ChartData {
   /** The x-axis labels */
   labels: string[];
   datasets: Dataset[];
 }
-
 export interface ChartConfig {
   backgroundColor?: string;
   /**
@@ -80,7 +73,6 @@ export interface ChartConfig {
    * Override styles of vertical labels, refer to react-native-svg's Text documentation
    */
   propsForVerticalLabels?: TextProps;
-
   /**
    * Override styles of horizontal labels, refer to react-native-svg's Text documentation
    */
@@ -91,57 +83,48 @@ export interface ChartConfig {
   propsForDots?: CircleProps;
   decimalPlaces?: number;
   style?: Partial<ViewStyle>;
-
   /**
    * Define stroke line join type
    */
   linejoinType?: "miter" | "bevel" | "round";
-
   /**
    * Define fill color for scrollable dot
    */
   scrollableDotFill?: string;
-
   /**
    * Define stroke color for scrollable dot
    */
   scrollableDotStrokeColor?: string;
-
   /**
    * Define stroke width for scrollable dot
    */
   scrollableDotStrokeWidth?: number;
-
   /**
    * Define radius for scrollable dot
    */
   scrollableDotRadius?: number;
-
   /**
    * Override style for additional info view upper scrollable dot
    */
   scrollableInfoViewStyle?: Partial<ViewStyle>;
-
   /**
    * Override text style for additional info view upper scrollable dot
    */
   scrollableInfoTextStyle?: Partial<TextStyle>;
   scrollableInfoTextDecorator?: (value: number) => string;
-
   /**
    * Set Info View offset
    */
   scrollableInfoOffset?: number;
-
   /**
    * Set Info View size
    */
   scrollableInfoSize?: Size;
 }
-
 export interface Size {
   width: number;
   height: number;
 }
-
-export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+export declare type PartialBy<T, K extends keyof T> = Omit<T, K> &
+  Partial<Pick<T, K>>;
+//# sourceMappingURL=HelperTypes.d.ts.map

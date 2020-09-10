@@ -286,6 +286,10 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           return;
         }
 
+        if (dataset.ignoreValue == x) {
+          return;
+        }
+
         const cx =
           paddingRight + (i * (width - paddingRight)) / dataset.data.length;
 
@@ -665,15 +669,29 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
 
     const datas = this.getDatas(data);
 
-    const x = (i: number) =>
-      Math.floor(
-        paddingRight + (i * (width - paddingRight)) / dataset.data.length
+    const nexti = (i: number) => {
+      console.log("ignoreValue = " + dataset.ignoreValue);
+      for (var j = i; j < dataset.data.length; j++) {
+        if (dataset.ignoreValue != dataset.data[j]) {
+          console.log("ignoreValue = " + dataset.data[j]);
+          return j;
+        }
+      }
+      return i;
+    };
+
+    const x = (i: number) => {
+      var j = nexti(i);
+      return Math.floor(
+        paddingRight + (j * (width - paddingRight)) / dataset.data.length
       );
+    };
 
     const baseHeight = this.calcBaseHeight(datas, height);
 
     const y = (i: number) => {
-      const yHeight = this.calcHeight(dataset.data[i], datas, height);
+      var j = nexti(i);
+      const yHeight = this.calcHeight(dataset.data[j], datas, height);
 
       return Math.floor(((baseHeight - yHeight) / 4) * 3 + paddingTop);
     };

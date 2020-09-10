@@ -23,12 +23,12 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
     "react-native-flash-message": "^0.1.10",
     "react-native-scrollable-tab-view": "^1.0.0",
-    "react-native-svg": "11.0.1",
+    "react-native-svg": "^12.1.0",
     "react-test-renderer": "16.7.0",
     "typescript": "^3.9.5"
   },
-  "_main": "./node_modules/expo/AppEntry.js",
-  "main": "./dist/index.js",
+  "main": "./node_modules/expo/AppEntry.js",
+  "_main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "files": [
     "dist"
