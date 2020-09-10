@@ -469,10 +469,8 @@ var LineChart = /** @class */ (function(_super) {
       var datas = _this.getDatas(data);
 
       var nexti = function(i) {
-        console.log("ignoreValue = " + dataset.ignoreValue);
         for (var j = i; j < dataset.data.length; j++) {
           if (dataset.ignoreValue != dataset.data[j]) {
-            console.log("ignoreValue = " + dataset.data[j]);
             return j;
           }
         }
