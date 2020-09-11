@@ -49,6 +49,21 @@ var __spreadArrays =
         r[k] = a[j];
     return r;
   };
+var __removedFromArray =
+  (this && this.__removedFromArray) ||
+  function() {
+    var arr = arguments[0];
+    var value = arguments[1];
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] === value) {
+        arr.splice(i, 1);
+        i--;
+      }
+    }
+
+    return arr;
+  };
+
 import React, { Component } from "react";
 import { Defs, Line, LinearGradient, Stop, Text } from "react-native-svg";
 var AbstractChart = /** @class */ (function(_super) {
@@ -66,6 +81,11 @@ var AbstractChart = /** @class */ (function(_super) {
       }
     };
     _this.calcBaseHeight = function(data, height) {
+      var ignoreValue = _this.props.ignoreValue,
+        has_ignoreValue = ignoreValue === void 0 ? false : true;
+      if (has_ignoreValue) {
+        data = __removedFromArray(data, ignoreValue);
+      }
       var min = Math.min.apply(Math, data);
       var max = Math.max.apply(Math, data);
       if (min >= 0 && max >= 0) {
@@ -77,6 +97,11 @@ var AbstractChart = /** @class */ (function(_super) {
       }
     };
     _this.calcHeight = function(val, data, height) {
+      var ignoreValue = _this.props.ignoreValue,
+        has_ignoreValue = ignoreValue === void 0 ? false : true;
+      if (has_ignoreValue) {
+        data = __removedFromArray(data, ignoreValue);
+      }
       var max = Math.max.apply(Math, data);
       var min = Math.min.apply(Math, data);
       if (min < 0 && max > 0) {
@@ -152,25 +177,31 @@ var AbstractChart = /** @class */ (function(_super) {
         yAxisSuffix = _f === void 0 ? "" : _f,
         _g = _d.yLabelsOffset,
         yLabelsOffset = _g === void 0 ? 12 : _g;
+
+      var ignoreValue = _this.props.ignoreValue,
+        has_ignoreValue = ignoreValue === void 0 ? false : true;
       return new Array(count === 1 ? 1 : count + 1).fill(1).map(function(_, i) {
+        var label = "";
         var yLabel = String(i * count);
         if (count === 1) {
-          yLabel =
-            "" +
-            yAxisLabel +
-            formatYLabel(data[0].toFixed(decimalPlaces)) +
-            yAxisSuffix;
+          label = data[0];
+        } else if (_this.props.fromZero) {
+          label =
+            (_this.calcScaler(data) / count) * i +
+            Math.min.apply(Math, __spreadArrays(data, [0]));
+        } else if (has_ignoreValue) {
+          label =
+            (_this.calcScaler(data) / count) * i +
+            Math.min.apply(Math, __removedFromArray(data, ignoreValue));
         } else {
-          var label = _this.props.fromZero
-            ? (_this.calcScaler(data) / count) * i +
-              Math.min.apply(Math, __spreadArrays(data, [0]))
-            : (_this.calcScaler(data) / count) * i + Math.min.apply(Math, data);
-          yLabel =
-            "" +
-            yAxisLabel +
-            formatYLabel(label.toFixed(decimalPlaces)) +
-            yAxisSuffix;
+          label =
+            (_this.calcScaler(data) / count) * i + Math.min.apply(Math, data);
         }
+        yLabel =
+          "" +
+          yAxisLabel +
+          formatYLabel(label.toFixed(decimalPlaces)) +
+          yAxisSuffix;
         var basePosition = height - height / 4;
         var x = paddingRight - yLabelsOffset;
         var y =

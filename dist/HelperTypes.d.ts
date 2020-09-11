@@ -11,9 +11,6 @@ export interface Dataset {
   withDots?: boolean;
   /** Override of LineChart's withScrollableDot property just for this dataset */
   withScrollableDot?: boolean;
-
-  /** Data value to disregard on the graph */
-  ignoreValue?: number;
 }
 export interface ChartData {
   /** The x-axis labels */

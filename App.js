@@ -144,6 +144,7 @@ export default class App extends React.Component {
                   })
                 }
                 formatXLabel={label => label.toUpperCase()}
+                ignoreValue={0}
               />
               <FlashMessage duration={1000} />
               <Text style={labelStyle}>Progress Chart</Text>

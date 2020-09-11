@@ -126,7 +126,7 @@ var LineChart = /** @class */ (function(_super) {
           if (hidePointsAtIndex.includes(i)) {
             return;
           }
-          if (dataset.ignoreValue == x) {
+          if (_this.props.ignoreValue == x) {
             return;
           }
 
@@ -470,7 +470,7 @@ var LineChart = /** @class */ (function(_super) {
 
       var nexti = function(i) {
         for (var j = i; j < dataset.data.length; j++) {
-          if (dataset.ignoreValue != dataset.data[j]) {
+          if (_this.props.ignoreValue != dataset.data[j]) {
             return j;
           }
         }

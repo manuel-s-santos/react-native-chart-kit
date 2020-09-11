@@ -12,7 +12,7 @@ const data = {
       color: (opacity = 1) => `rgba(0, 255, 255, ${opacity})` // optional
     },
     {
-      data: [0, 30, 0, 0, 0, 90, 67, 54, 10, 2],
+      data: [1, 0, 0, 0, 0, 0, 0, 67, 54, 10, 2],
       ignoreValue: 0
     }
   ],

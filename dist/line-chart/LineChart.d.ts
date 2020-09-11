@@ -188,6 +188,10 @@ export interface LineChartProps extends AbstractChartProps {
    * The number of horizontal lines
    */
   segments?: number;
+  /**
+   * Value to ignore in the graph
+   */
+  ignoreValue?: number;
 }
 declare type LineChartState = {
   scrollableDotHorizontalOffset: Animated.Value;
