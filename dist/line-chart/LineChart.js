@@ -468,34 +468,36 @@ var LineChart = /** @class */ (function(_super) {
       }
       var datas = _this.getDatas(data);
 
-      var nexti = function(i) {
-        for (var j = i; j < dataset.data.length; j++) {
-          if (_this.props.ignoreValue != dataset.data[j]) {
-            return j;
-          }
-        }
-        return i;
-      };
-
       var x = function(i) {
-        var j = nexti(i);
         return Math.floor(
-          paddingRight + (j * (width - paddingRight)) / dataset.data.length
+          paddingRight + (i * (width - paddingRight)) / dataset.data.length
         );
       };
       var baseHeight = _this.calcBaseHeight(datas, height);
       var y = function(i) {
-        var j = nexti(i);
-        var yHeight = _this.calcHeight(dataset.data[j], datas, height);
+        var yHeight = _this.calcHeight(dataset.data[i], datas, height);
         return Math.floor(((baseHeight - yHeight) / 4) * 3 + paddingTop);
       };
-      return ["M" + x(0) + "," + y(0)]
+
+      var output = [];
+      dataset.data.forEach(function(value, i) {
+        if (_this.props.ignoreValue !== value) {
+          output.push(i);
+        }
+      });
+
+      if (output.length === 0) {
+        return "M0,0";
+      }
+
+      return ["M" + x(output[0]) + "," + y(output[0])]
         .concat(
-          dataset.data.slice(0, -1).map(function(_, i) {
-            var x_mid = (x(i) + x(i + 1)) / 2;
-            var y_mid = (y(i) + y(i + 1)) / 2;
+          output.slice(0, -1).map(function(i, index) {
+            var nexti = output[index + 1];
+            var x_mid = (x(i) + x(nexti)) / 2;
+            var y_mid = (y(i) + y(nexti)) / 2;
             var cp_x1 = (x_mid + x(i)) / 2;
-            var cp_x2 = (x_mid + x(i + 1)) / 2;
+            var cp_x2 = (x_mid + x(nexti)) / 2;
             return (
               "Q " +
               cp_x1 +
@@ -508,16 +510,17 @@ var LineChart = /** @class */ (function(_super) {
               (" Q " +
                 cp_x2 +
                 ", " +
-                y(i + 1) +
+                y(nexti) +
                 ", " +
-                x(i + 1) +
+                x(nexti) +
                 ", " +
-                y(i + 1))
+                y(nexti))
             );
           })
         )
         .join(" ");
     };
+
     _this.renderBezierLine = function(_a) {
       var data = _a.data,
         width = _a.width,
