@@ -187,15 +187,16 @@ var AbstractChart = /** @class */ (function(_super) {
           label = data[0];
         } else if (_this.props.fromZero) {
           label =
-            (_this.calcScaler(data) / count) * i +
+            Math.ceil(_this.calcScaler(data) / count) * i +
             Math.min.apply(Math, __spreadArrays(data, [0]));
         } else if (has_ignoreValue) {
           label =
-            (_this.calcScaler(data) / count) * i +
+            Math.ceil(_this.calcScaler(data) / count) * i +
             Math.min.apply(Math, __removedFromArray(data, ignoreValue));
         } else {
           label =
-            (_this.calcScaler(data) / count) * i + Math.min.apply(Math, data);
+            Math.ceil(_this.calcScaler(data) / count) * i +
+            Math.min.apply(Math, data);
         }
         yLabel =
           "" +
@@ -352,9 +353,9 @@ var AbstractChart = /** @class */ (function(_super) {
           <LinearGradient
             id="backgroundGradient"
             x1={0}
-            y1={height}
-            x2={width}
-            y2={0}
+            y1={0}
+            x2={0}
+            y2={height}
             gradientUnits="userSpaceOnUse"
           >
             <Stop
@@ -370,6 +371,9 @@ var AbstractChart = /** @class */ (function(_super) {
           </LinearGradient>
           {useShadowColorFromDataset ? (
             data.map(function(dataset, index) {
+              if (!dataset.withShadow) {
+                return <></>;
+              }
               return (
                 <LinearGradient
                   id={"fillShadowGradient_" + index}

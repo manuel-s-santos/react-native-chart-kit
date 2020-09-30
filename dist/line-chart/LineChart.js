@@ -521,6 +521,83 @@ var LineChart = /** @class */ (function(_super) {
         .join(" ");
     };
 
+    _this.getBezierLineShadow = function(dataset, _a) {
+      var width = _a.width,
+        height = _a.height,
+        paddingRight = _a.paddingRight,
+        paddingTop = _a.paddingTop,
+        data = _a.data;
+      if (dataset.data.length === 0) {
+        return "M0,0";
+      }
+      var datas = _this.getDatas(data);
+
+      var x = function(i) {
+        return Math.floor(
+          paddingRight + (i * (width - paddingRight)) / dataset.data.length
+        );
+      };
+      var baseHeight = _this.calcBaseHeight(datas, height);
+      var y = function(val) {
+        var yHeight = _this.calcHeight(val, datas, height);
+        return Math.floor(((baseHeight - yHeight) / 4) * 3 + paddingTop);
+      };
+
+      var outputX = [];
+      var outputY = [];
+      dataset.data.forEach(function(value, i) {
+        if (_this.props.ignoreValue !== value) {
+          if (outputX.length === 0 && i > 0) {
+            outputX.push(i);
+            outputY.push(value);
+          }
+          outputX.push(i);
+          outputY.push(value);
+        }
+      });
+
+      if (outputX.length === 0) {
+        return "M" + x(0) + "," + y(0);
+      }
+
+      //add starting and ending of gradient based on the first and the last allowed value
+      outputY.push(dataset.data[outputX[outputX.length - 1]]);
+      outputX.push(dataset.data.length - 1);
+      outputY.unshift(dataset.data[outputX[0]]);
+      outputX.unshift(0);
+
+      return ["M" + x(outputX[0]) + "," + y(outputY[0])]
+        .concat(
+          outputX.slice(0, -1).map(function(i, index) {
+            var nextx = outputX[index + 1];
+            var nexty = outputY[index + 1];
+            var x_mid = (x(i) + x(nextx)) / 2;
+            var y_mid = (y(outputY[index]) + y(nexty)) / 2;
+            var cp_x1 = (x_mid + x(i)) / 2;
+            var cp_x2 = (x_mid + x(nextx)) / 2;
+            return (
+              "Q " +
+              cp_x1 +
+              ", " +
+              y(outputY[index]) +
+              ", " +
+              x_mid +
+              ", " +
+              y_mid +
+              (" Q " +
+                cp_x2 +
+                ", " +
+                y(nexty) +
+                ", " +
+                x(nextx) +
+                ", " +
+                y(nexty))
+            );
+          })
+        )
+        .join(" ");
+    };
+
     _this.renderBezierLine = function(_a) {
       var data = _a.data,
         width = _a.width,
@@ -554,8 +631,11 @@ var LineChart = /** @class */ (function(_super) {
         data = _a.data,
         useColorFromDataset = _a.useColorFromDataset;
       return data.map(function(dataset, index) {
+        if (!dataset.withShadow) {
+          return <></>;
+        }
         var d =
-          _this.getBezierLinePoints(dataset, {
+          _this.getBezierLineShadow(dataset, {
             width: width,
             height: height,
             paddingRight: paddingRight,
@@ -573,6 +653,7 @@ var LineChart = /** @class */ (function(_super) {
             "," +
             ((height / 4) * 3 + paddingTop) +
             " Z");
+
         return (
           <Path
             key={index}

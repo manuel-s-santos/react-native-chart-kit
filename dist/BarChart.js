@@ -70,7 +70,8 @@ var BarChart = /** @class */ (function(_super) {
             x={
               paddingRight +
               (i * (width - paddingRight)) / data.length +
-              barWidth / 2
+              barWidth / 2 -
+              10
             }
             y={
               ((barHeight > 0 ? baseHeight - barHeight : baseHeight) / 4) * 3 +
@@ -92,6 +93,7 @@ var BarChart = /** @class */ (function(_super) {
         paddingRight = _a.paddingRight;
       var baseHeight = _this.calcBaseHeight(data, height);
       return data.map(function(x, i) {
+        if (data[i] < 1) return;
         var barHeight = _this.calcHeight(x, data, height);
         var barWidth = 32 * _this.getBarPercentage();
         return (
@@ -100,7 +102,8 @@ var BarChart = /** @class */ (function(_super) {
             x={
               paddingRight +
               (i * (width - paddingRight)) / data.length +
-              barWidth / 2
+              barWidth / 2 -
+              10
             }
             y={((baseHeight - barHeight) / 4) * 3 + paddingTop}
             width={barWidth}
@@ -115,9 +118,11 @@ var BarChart = /** @class */ (function(_super) {
         width = _a.width,
         height = _a.height,
         paddingTop = _a.paddingTop,
-        paddingRight = _a.paddingRight;
+        paddingRight = _a.paddingRight,
+        formatValueOnTopBar = _a.formatValueOnTopBar;
       var baseHeight = _this.calcBaseHeight(data, height);
       return data.map(function(x, i) {
+        if (data[i] < 1) return;
         var barHeight = _this.calcHeight(x, data, height);
         var barWidth = 32 * _this.getBarPercentage();
         return (
@@ -126,14 +131,15 @@ var BarChart = /** @class */ (function(_super) {
             x={
               paddingRight +
               (i * (width - paddingRight)) / data.length +
-              barWidth / 1
+              barWidth / 1 -
+              10
             }
             y={((baseHeight - barHeight) / 4) * 3 + paddingTop - 1}
             fill={_this.props.chartConfig.color(0.6)}
             fontSize="12"
             textAnchor="middle"
           >
-            {data[i]}
+            {formatValueOnTopBar(data[i])}
           </Text>
         );
       });
@@ -163,13 +169,23 @@ var BarChart = /** @class */ (function(_super) {
       _k = _b.showValuesOnTopOfBars,
       showValuesOnTopOfBars = _k === void 0 ? false : _k,
       _l = _b.segments,
-      segments = _l === void 0 ? 4 : _l;
+      segments = _l === void 0 ? 4 : _l,
+      _m = _b.formatValueOnTopBar,
+      formatValueOnTopBar =
+        _m === void 0
+          ? function(n) {
+              return n;
+            }
+          : _m;
+
     var _m = style.borderRadius,
       borderRadius = _m === void 0 ? 0 : _m,
       _o = style.paddingTop,
       paddingTop = _o === void 0 ? 16 : _o,
       _p = style.paddingRight,
-      paddingRight = _p === void 0 ? 64 : _p;
+      paddingRight = _p === void 0 ? 64 : _p,
+      _q = style.horizontalOffset,
+      horizontalOffset = _q === void 0 ? 0 : _q;
     var config = {
       width: width,
       height: height,
@@ -212,7 +228,8 @@ var BarChart = /** @class */ (function(_super) {
               ? this.renderHorizontalLines(
                   __assign(__assign({}, config), {
                     count: segments,
-                    paddingTop: paddingTop
+                    paddingTop: paddingTop,
+                    paddingRight: paddingRight
                   })
                 )
               : null}
@@ -236,7 +253,8 @@ var BarChart = /** @class */ (function(_super) {
                     labels: data.labels,
                     paddingRight: paddingRight,
                     paddingTop: paddingTop,
-                    horizontalOffset: barWidth * this.getBarPercentage()
+                    horizontalOffset:
+                      barWidth * this.getBarPercentage() + horizontalOffset
                   })
                 )
               : null}
@@ -256,7 +274,8 @@ var BarChart = /** @class */ (function(_super) {
                 __assign(__assign({}, config), {
                   data: data.datasets[0].data,
                   paddingTop: paddingTop,
-                  paddingRight: paddingRight
+                  paddingRight: paddingRight,
+                  formatValueOnTopBar: formatValueOnTopBar
                 })
               )}
           </G>

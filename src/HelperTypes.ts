@@ -19,6 +19,8 @@ export interface Dataset {
 
   /** Data value to disregard on the graph */
   ignoreValue?: number;
+
+  withShadow?: boolean;
 }
 
 export interface ChartData {

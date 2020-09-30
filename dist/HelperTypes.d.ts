@@ -11,6 +11,8 @@ export interface Dataset {
   withDots?: boolean;
   /** Override of LineChart's withScrollableDot property just for this dataset */
   withScrollableDot?: boolean;
+  /** enable useShadowColorFromDataset per dataset */
+  withShadow?: boolean;
 }
 export interface ChartData {
   /** The x-axis labels */

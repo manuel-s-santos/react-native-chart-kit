@@ -275,6 +275,19 @@ declare class LineChart extends AbstractChart<LineChartProps, LineChartState> {
       "width" | "height" | "paddingRight" | "paddingTop" | "data"
     >
   ) => string;
+  getBezierLineShadow: (
+    dataset: Dataset,
+    {
+      width,
+      height,
+      paddingRight,
+      paddingTop,
+      data
+    }: Pick<
+      AbstractChartConfig,
+      "width" | "height" | "paddingRight" | "paddingTop" | "data"
+    >
+  ) => string;
   renderBezierLine: ({
     data,
     width,
