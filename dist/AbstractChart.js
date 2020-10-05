@@ -357,6 +357,7 @@ var AbstractChart = /** @class */ (function(_super) {
             x2={0}
             y2={height}
             gradientUnits="userSpaceOnUse"
+            key={Math.random()}
           >
             <Stop
               offset="0"
@@ -411,6 +412,7 @@ var AbstractChart = /** @class */ (function(_super) {
               x2={0}
               y2={height}
               gradientUnits="userSpaceOnUse"
+              key={Math.random()}
             >
               <Stop
                 offset="0"
