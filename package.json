@@ -1,6 +1,6 @@
 {
   "name": "react-native-chart-kit",
-  "version": "6.6.1",
+  "version": "6.11.0",
   "devDependencies": {
     "@types/react": "^16.9.38",
     "@types/react-native": "^0.62.13",
@@ -60,5 +60,11 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/indiespirit/react-native-chart-kit",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/indiespirit/react-native-chart-kit"
   }
 }
