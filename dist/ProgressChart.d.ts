@@ -8,15 +8,13 @@ export declare type ProgressChartData =
   | Array<number>
   | {
       labels?: Array<string>;
+      colors?: Array<string>;
       data: Array<number>;
     };
 export interface ProgressChartProps extends AbstractChartProps {
   data: ProgressChartData;
   width: number;
   height: number;
-  accessor: string;
-  backgroundColor: string;
-  paddingLeft: string;
   center?: Array<number>;
   absolute?: boolean;
   hasLegend?: boolean;
@@ -25,6 +23,7 @@ export interface ProgressChartProps extends AbstractChartProps {
   hideLegend?: boolean;
   strokeWidth?: number;
   radius?: number;
+  withCustomBarColorFromData?: boolean;
 }
 declare type ProgressChartState = {};
 declare class ProgressChart extends AbstractChart<

@@ -31,7 +31,8 @@ export interface BarChartProps extends AbstractChartProps {
   segments?: number;
   showBarTops?: boolean;
   showValuesOnTopOfBars?: boolean;
-  formatValueOnTopBar?: (n: number) => string;
+  withCustomBarColorFromData?: boolean;
+  flatColor?: boolean;
 }
 declare type BarChartState = {};
 declare class BarChart extends AbstractChart<BarChartProps, BarChartState> {
@@ -42,7 +43,8 @@ declare class BarChart extends AbstractChart<BarChartProps, BarChartState> {
     height,
     paddingTop,
     paddingRight,
-    barRadius
+    barRadius,
+    withCustomBarColorFromData
   }: Pick<
     Pick<
       AbstractChartConfig,
@@ -67,6 +69,7 @@ declare class BarChart extends AbstractChart<BarChartProps, BarChartState> {
       | "stackedBar"
       | "verticalLabelRotation"
       | "formatXLabel"
+      | "verticalLabelsHeightPercentage"
       | "backgroundGradientFrom"
       | "backgroundGradientFromOpacity"
       | "backgroundGradientTo"
@@ -92,6 +95,7 @@ declare class BarChart extends AbstractChart<BarChartProps, BarChartState> {
     "height" | "paddingRight" | "paddingTop" | "width" | "barRadius"
   > & {
     data: number[];
+    withCustomBarColorFromData: boolean;
   }) => JSX.Element[];
   renderBarTops: ({
     data,
@@ -123,6 +127,7 @@ declare class BarChart extends AbstractChart<BarChartProps, BarChartState> {
       | "stackedBar"
       | "verticalLabelRotation"
       | "formatXLabel"
+      | "verticalLabelsHeightPercentage"
       | "backgroundGradientFrom"
       | "backgroundGradientFromOpacity"
       | "backgroundGradientTo"
@@ -148,6 +153,12 @@ declare class BarChart extends AbstractChart<BarChartProps, BarChartState> {
     "height" | "paddingRight" | "paddingTop" | "width"
   > & {
     data: number[];
+  }) => JSX.Element[];
+  renderColors: ({
+    data,
+    flatColor
+  }: Pick<AbstractChartConfig, "data"> & {
+    flatColor: boolean;
   }) => JSX.Element[];
   renderValuesOnTopOfBars: ({
     data,
@@ -179,6 +190,7 @@ declare class BarChart extends AbstractChart<BarChartProps, BarChartState> {
       | "stackedBar"
       | "verticalLabelRotation"
       | "formatXLabel"
+      | "verticalLabelsHeightPercentage"
       | "backgroundGradientFrom"
       | "backgroundGradientFromOpacity"
       | "backgroundGradientTo"

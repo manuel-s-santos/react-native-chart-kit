@@ -5,14 +5,23 @@ export interface Dataset {
   data: number[];
   /** A function returning the color of the stroke given an input opacity value. */
   color?: (opacity: number) => string;
+  /** A function returning array of the colors of the stroke given an input opacity value for each data value. */
+  colors?: Array<(opacity: number) => string>;
   /** The width of the stroke. Defaults to 2. */
   strokeWidth?: number;
   /** A boolean indicating whether to render dots for this line */
   withDots?: boolean;
   /** Override of LineChart's withScrollableDot property just for this dataset */
   withScrollableDot?: boolean;
-  /** enable useShadowColorFromDataset per dataset */
+  /** Data value to disregard on the graph */
+  ignoreValue?: number;
   withShadow?: boolean;
+  /** Unique key **/
+  key?: string | number;
+  /** Stroke Dash Array */
+  strokeDashArray?: number[];
+  /** Stroke Dash Offset */
+  strokeDashOffset?: number;
 }
 export interface ChartData {
   /** The x-axis labels */

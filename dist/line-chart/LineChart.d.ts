@@ -149,6 +149,7 @@ export interface LineChartProps extends AbstractChartProps {
     x: number;
     y: number;
     index: number;
+    indexData: number;
   }) => React.ReactNode;
   /**
    * Rotation angle of the horizontal labels - default 0 (degrees).
@@ -188,10 +189,6 @@ export interface LineChartProps extends AbstractChartProps {
    * The number of horizontal lines
    */
   segments?: number;
-  /**
-   * Value to ignore in the graph
-   */
-  ignoreValue?: number;
 }
 declare type LineChartState = {
   scrollableDotHorizontalOffset: Animated.Value;
@@ -263,19 +260,6 @@ declare class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     "data" | "width" | "height" | "paddingRight" | "paddingTop" | "linejoinType"
   >) => any[];
   getBezierLinePoints: (
-    dataset: Dataset,
-    {
-      width,
-      height,
-      paddingRight,
-      paddingTop,
-      data
-    }: Pick<
-      AbstractChartConfig,
-      "width" | "height" | "paddingRight" | "paddingTop" | "data"
-    >
-  ) => string;
-  getBezierLineShadow: (
     dataset: Dataset,
     {
       width,
