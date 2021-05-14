@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { RectProps } from "react-native-svg";
 import AbstractChart from "../AbstractChart";
 import { ContributionGraphProps, ContributionGraphState } from ".";
@@ -51,8 +50,8 @@ declare class ContributionGraph extends AbstractChart<
   renderSquare(dayIndex: number, index: number): JSX.Element;
   handleDayPress(index: number): void;
   renderWeek(weekIndex: number): JSX.Element;
-  renderAllWeeks(): JSX.Element[];
-  renderMonthLabels(): JSX.Element[];
+  renderAllWeeks(): any;
+  renderMonthLabels(): any;
   static defaultProps: {
     numDays: number;
     endDate: Date;

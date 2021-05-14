@@ -9,7 +9,8 @@ var __extends =
             d.__proto__ = b;
           }) ||
         function(d, b) {
-          for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+          for (var p in b)
+            if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p];
         };
       return extendStatics(d, b);
     };
@@ -121,12 +122,12 @@ var LineChart = /** @class */ (function(_super) {
               }
             : _d;
       data.forEach(function(dataset) {
-        if (dataset.withDots == false) return;
+        if (dataset.withDots === false) return;
         dataset.data.forEach(function(x, i) {
           if (hidePointsAtIndex.includes(i)) {
             return;
           }
-          if (dataset.ignoreValue == x) {
+          if (dataset.ignoreValue === x) {
             return;
           }
           var cx =
@@ -374,7 +375,11 @@ var LineChart = /** @class */ (function(_super) {
       }
       var datas = _this.getDatas(data);
       var baseHeight = _this.calcBaseHeight(datas, height);
+
       return data.map(function(dataset, index) {
+        //console.log("dataset.withShadow=" + dataset.withShadow);
+        if (dataset.withShadow === false) return <></>;
+
         return (
           <Polygon
             key={index}
@@ -469,10 +474,10 @@ var LineChart = /** @class */ (function(_super) {
       }
       var datas = _this.getDatas(data);
       var nexti = function(i) {
-        console.log("ignoreValue = " + dataset.ignoreValue);
+        //console.log("ignoreValue = " + dataset.ignoreValue);
         for (var j = i; j < dataset.data.length; j++) {
-          if (dataset.ignoreValue != dataset.data[j]) {
-            console.log("ignoreValue = " + dataset.data[j]);
+          if (dataset.ignoreValue !== dataset.data[j]) {
+            //  console.log("ignoreValue = " + dataset.data[j]);
             return j;
           }
         }
@@ -554,6 +559,8 @@ var LineChart = /** @class */ (function(_super) {
         data = _a.data,
         useColorFromDataset = _a.useColorFromDataset;
       return data.map(function(dataset, index) {
+        if (dataset.withShadow === false) return <></>;
+
         var d =
           _this.getBezierLinePoints(dataset, {
             width: width,
@@ -687,6 +694,7 @@ var LineChart = /** @class */ (function(_super) {
       count = segments;
     }
     var legendOffset = this.props.data.legend ? height * 0.15 : 0;
+    // console.log('withShadow=' + withShadow);
     return (
       <View style={style}>
         <Svg

@@ -5,15 +5,32 @@ const data = {
   datasets: [
     {
       data: [0, -50, -20, -2, 86, 71, 100],
-      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
+      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+      withShadow: true
     },
     {
       data: [20, 10, 4, 56, 87, 90],
-      color: (opacity = 1) => `rgba(0, 255, 255, ${opacity})` // optional
+      color: (opacity = 1) => `rgba(0, 255, 255, ${opacity})`, // optional
+      withShadow: true
     },
     {
       data: [1, 0, 0, 0, 0, 0, 0, 67, 54, 10, 2],
-      ignoreValue: 0
+      ignoreValue: 0,
+      withShadow: true
+    },
+    {
+      data: [1, 0, 0, 0, 0, 0, 0, 67, 54, 10, 2],
+      color: () => "red",
+      strokeWidth: 7,
+      withDots: false,
+      withShadow: false
+    },
+    {
+      data: [10, 0, 0, 15, 0, 0, 0, 10],
+      color: () => "green",
+      strokeWidth: 5,
+      withDots: false,
+      withShadow: false
     }
   ],
   legend: ["Rainy Days", "Sunny Days", "Snowy Days"] // optional

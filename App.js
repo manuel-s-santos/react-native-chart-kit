@@ -135,11 +135,38 @@ export default class App extends React.Component {
               <LineChart
                 bezier
                 data={data}
+                ignoreValue={0}
                 width={width}
                 height={height}
                 yAxisLabel="$"
                 yAxisSuffix="k"
-                chartConfig={chartConfig}
+                chartConfig={{
+                  backgroundColor: "white",
+                  backgroundGradientFrom: "#E0E0E0",
+                  backgroundGradientTo: "white",
+                  backgroundGradientToOpacity: 0.5,
+                  useShadowColorFromDataset: true,
+                  // fillShadowGradient: 'red',
+                  fillShadowGradientOpacity: 0.4,
+                  decimalPlaces: 0, // optional, defaults to 2dp
+                  color: (opacity = 1) => `rgba(169, 169, 169, ${opacity})`,
+                  labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                  style: {
+                    borderRadius: 16
+                  },
+                  propsForDots: {
+                    r: "5",
+                    strokeWidth: "2"
+                  },
+                  // propsForLabels: {
+                  //   fill: ColorConstant.grayDark,
+                  // },
+                  propsForVerticalLabels: {},
+                  propsForBackgroundLines: {
+                    strokeDasharray: "" // solid background lines with no dashes
+                  },
+                  barRadius: 10
+                }}
                 style={graphStyle}
                 verticalLabelRotation={20}
                 onDataPointClick={({ value, getColor }) =>
@@ -150,7 +177,6 @@ export default class App extends React.Component {
                   })
                 }
                 formatXLabel={label => label.toUpperCase()}
-                ignoreValue={0}
               />
               <FlashMessage duration={1000} />
               <Text style={labelStyle}>Progress Chart</Text>

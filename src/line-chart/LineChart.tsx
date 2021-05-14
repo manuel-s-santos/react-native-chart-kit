@@ -673,10 +673,10 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     const datas = this.getDatas(data);
 
     const nexti = (i: number) => {
-      console.log("ignoreValue = " + dataset.ignoreValue);
+      //console.log("ignoreValue = " + dataset.ignoreValue);
       for (var j = i; j < dataset.data.length; j++) {
         if (dataset.ignoreValue != dataset.data[j]) {
-          console.log("ignoreValue = " + dataset.data[j]);
+          //console.log("ignoreValue = " + dataset.data[j]);
           return j;
         }
       }
