@@ -32,6 +32,7 @@ export interface BarChartProps extends AbstractChartProps {
   showValuesOnTopOfBars?: boolean;
   withCustomBarColorFromData?: boolean;
   flatColor?: boolean;
+  formatValueOnTopBar?: (n: number) => string;
 }
 declare type BarChartState = {};
 declare class BarChart extends AbstractChart<BarChartProps, BarChartState> {
