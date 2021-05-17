@@ -1,3 +1,6 @@
+import React, { Component } from "react";
+import { Defs, Line, LinearGradient, Stop, Text } from "react-native-svg";
+
 var __extends =
   (this && this.__extends) ||
   (function() {
@@ -50,8 +53,21 @@ var __spreadArrays =
         r[k] = a[j];
     return r;
   };
-import React, { Component } from "react";
-import { Defs, Line, LinearGradient, Stop, Text } from "react-native-svg";
+
+var __removedFromArray =
+  (this && this.__removedFromArray) ||
+  function() {
+    var arr = arguments[0];
+    var value = arguments[1];
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] === value) {
+        arr.splice(i, 1);
+        i--;
+      }
+    }
+
+    return arr;
+  };
 export var DEFAULT_X_LABELS_HEIGHT_PERCENTAGE = 0.75;
 var AbstractChart = /** @class */ (function(_super) {
   __extends(AbstractChart, _super);
@@ -76,6 +92,11 @@ var AbstractChart = /** @class */ (function(_super) {
       }
     };
     _this.calcBaseHeight = function(data, height) {
+      var ignoreValue = _this.props.ignoreValue,
+        has_ignoreValue = ignoreValue === void 0 ? false : true;
+      if (has_ignoreValue) {
+        data = __removedFromArray(data, ignoreValue);
+      }
       var min = Math.min.apply(Math, data);
       var max = Math.max.apply(Math, data);
       if (min >= 0 && max >= 0) {
@@ -87,6 +108,11 @@ var AbstractChart = /** @class */ (function(_super) {
       }
     };
     _this.calcHeight = function(val, data, height) {
+      var ignoreValue = _this.props.ignoreValue,
+        has_ignoreValue = ignoreValue === void 0 ? false : true;
+      if (has_ignoreValue) {
+        data = __removedFromArray(data, ignoreValue);
+      }
       var max = Math.max.apply(Math, data);
       var min = Math.min.apply(Math, data);
       if (min < 0 && max > 0) {
@@ -171,25 +197,33 @@ var AbstractChart = /** @class */ (function(_super) {
         yAxisSuffix = _g === void 0 ? "" : _g,
         _h = _e.yLabelsOffset,
         yLabelsOffset = _h === void 0 ? 12 : _h;
+
+      var ignoreValue = _this.props.ignoreValue,
+        has_ignoreValue = ignoreValue === void 0 ? false : true;
+
       return new Array(count === 1 ? 1 : count + 1).fill(1).map(function(_, i) {
+        var label = "";
         var yLabel = String(i * count);
         if (count === 1) {
-          yLabel =
-            "" +
-            yAxisLabel +
-            formatYLabel(data[0].toFixed(decimalPlaces)) +
-            yAxisSuffix;
+          label = data[0];
+        } else if (_this.props.fromZero) {
+          label =
+            Math.ceil(_this.calcScaler(data) / count) * i +
+            Math.min.apply(Math, __spreadArrays(data, [0]));
+        } else if (has_ignoreValue) {
+          label =
+            Math.ceil(_this.calcScaler(data) / count) * i +
+            Math.min.apply(Math, __removedFromArray(data, ignoreValue));
         } else {
-          var label = _this.props.fromZero
-            ? (_this.calcScaler(data) / count) * i +
-              Math.min.apply(Math, __spreadArrays(data, [0]))
-            : (_this.calcScaler(data) / count) * i + Math.min.apply(Math, data);
-          yLabel =
-            "" +
-            yAxisLabel +
-            formatYLabel(label.toFixed(decimalPlaces)) +
-            yAxisSuffix;
+          label =
+            Math.ceil(_this.calcScaler(data) / count) * i +
+            Math.min.apply(Math, data);
         }
+        yLabel =
+          "" +
+          yAxisLabel +
+          formatYLabel(label.toFixed(decimalPlaces)) +
+          yAxisSuffix;
         var basePosition = height * verticalLabelsHeightPercentage;
         var x = paddingRight - yLabelsOffset;
         var y =
@@ -355,9 +389,9 @@ var AbstractChart = /** @class */ (function(_super) {
           <LinearGradient
             id="backgroundGradient"
             x1={0}
-            y1={height}
-            x2={width}
-            y2={0}
+            y1={0}
+            x2={0}
+            y2={height}
             gradientUnits="userSpaceOnUse"
           >
             <Stop
@@ -373,6 +407,9 @@ var AbstractChart = /** @class */ (function(_super) {
           </LinearGradient>
           {useShadowColorFromDataset ? (
             data.map(function(dataset, index) {
+              if (!dataset.withShadow) {
+                return <></>;
+              }
               return (
                 <LinearGradient
                   id={"fillShadowGradient_" + index}
